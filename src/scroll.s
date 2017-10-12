@@ -1,8 +1,11 @@
 .area _DATA
 
+;; Global
 puntero_video:: .dw #0xC000
 puntero_tilemap:: .dw #0x4000
+
 offset: .dw #0x0000
+MAX_SCROLL: .db #80
 
 .area _CODE
 
@@ -85,7 +88,7 @@ scroll_scrollRight::
 
 	;; Comprobación de que se puede scrollear
 	ld a, l 											;; A = offset
-	cp #80												;; A == 80
+	cp #MAX_SCROLL										;; A == MAX_SCROLL
 
 	jr z, no_scroll_right								;; No se puede scrollear más de 80 a la derecha
 

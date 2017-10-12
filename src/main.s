@@ -1,5 +1,3 @@
-.module eee
-
 .area _DATA
 
 .globl _sprite_palette
@@ -10,7 +8,6 @@
 
 .include "game.h.s"
 .include "cpctelera.h.s"
-.include "keyboard.s"
 .include "scroll.h.s"
 .include "hero.h.s"
 
@@ -19,12 +16,8 @@
 ;; =================================
 settings::
 	call cpct_disableFirmware_asm
+
 	ld c, #0
-
-	ld hl, #_sprite_palette
-	ld de, #16
-	call cpct_setPalette_asm
-
 	call cpct_setVideoMode_asm
 
 	ld hl, #_sprite_palette
@@ -41,9 +34,9 @@ settings::
 	call cpct_memset_asm
 
 	;; Set Parameters on the stack
-	ld   hl, #0xC000   ;; HL = pointer to the tilemap
+	ld   hl, (puntero_tilemap)   ;; HL = pointer to the tilemap
 	push hl              ;; Push ptilemap to the stack
-	ld   hl, #0xC000  ;; HL = Pointer to video memory location where tilemap is drawn
+	ld   hl, (puntero_video)  ;; HL = Pointer to video memory location where tilemap is drawn
 	push hl              ;; Push pvideomem to the stack
 	;; Set Paramters on registers
 	ld    a, #120 ;; A = map_width

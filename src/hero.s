@@ -15,6 +15,7 @@
 .include "keyboard.s"
 .include "entity.h.s"
 .include "macros.h.s"
+.include "scroll.h.s"
 
 ;;Hero Data
 defineEntity hero 39, 60, 7, 25, _sprite_hero_right
@@ -68,7 +69,7 @@ hero_erase::
 hero_init::
 	ld a, #39
 	ld (hero_x), a
-	ld a, #60
+	ld a, #120
 	ld (hero_y), a
 	ld a, #-1
 	ld (hero_jump), a
@@ -259,7 +260,10 @@ checkUserInput:
 	ld hl, #hero_last_movement
 	ld a, #00
 	ld (hl), a
-	call moveHeroLeft
+	call hero_erase
+	call scroll_scrollLeft
+	call hero_draw
+	;;call moveHeroLeft
 
 	a_not_pressed:
 
@@ -273,7 +277,10 @@ checkUserInput:
 	ld hl, #hero_last_movement
 	ld a, #01
 	ld (hl), a
-	call moveHeroRight
+	call hero_erase
+	call scroll_scrollRight
+	call hero_draw
+	;;call moveHeroRight
 
 	d_not_pressed:
 

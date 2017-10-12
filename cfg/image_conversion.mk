@@ -70,3 +70,4 @@ $(eval $(call IMG2SPRITES,assets/hero_right.png,0,sprite,14,25,$(PALETTE),,src/s
 $(eval $(call IMG2SPRITES,assets/hero_left.png,0,sprite,14,25,$(PALETTE),,src/sprites,))
 $(eval $(call IMG2SPRITES,assets/oldman_left.png,0,sprite,14,25,$(PALETTE),,src/sprites,))
 $(eval $(call IMG2SPRITES,assets/jar.png,0,sprite,12,12,$(PALETTE),,src/sprites,))
+$(eval $(call IMG2SPRITES,assets/tiles.png,0,g,4,4,$(PALETTE),tileset,src/sprites,))
