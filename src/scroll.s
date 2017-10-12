@@ -88,7 +88,7 @@ scroll_scrollRight::
 
 	;; Comprobación de que se puede scrollear
 	ld a, l 											;; A = offset
-	cp #MAX_SCROLL										;; A == MAX_SCROLL
+	cp #80										;; A == MAX_SCROLL
 
 	jr z, no_scroll_right								;; No se puede scrollear más de 80 a la derecha
 
