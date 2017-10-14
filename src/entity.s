@@ -42,5 +42,5 @@ entity_draw::
 		call cpct_drawSprite_asm
 		ret
 	erase:
-		call cpct_drawSolidBox_asm	
+		call cpct_drawSolidBox_asm
 	ret

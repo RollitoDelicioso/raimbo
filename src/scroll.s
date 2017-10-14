@@ -3,8 +3,8 @@
 ;; Global
 puntero_video:: .dw #0xC000
 puntero_tilemap:: .dw #0x4000
+offset:: .dw #0x0000
 
-offset: .dw #0x0000
 MAX_SCROLL: .db #80
 
 .area _CODE
