@@ -261,7 +261,14 @@ enemy_checkCollision:
 	jp m, not_collision 	;;| If(<0)
 
 		;;Other posibilities of collision
-		call game_heroKill
+
+		call hero_getPointerInvecible
+		ld a, (hl)
+		cp #1
+			ret z 
+		ld a, #1
+		ld (hl), a
+		call hero_decreaseLife
 	
 	not_collision:
 
