@@ -15,6 +15,7 @@
 .include "keyboard.s"
 .include "entity.h.s"
 .include "macros.h.s"
+.include "scroll.h.s"
 
 ;;Hero Data
 defineEntity hero 39, 60, 7, 25, _sprite_hero_right
@@ -68,7 +69,7 @@ hero_erase::
 hero_init::
 	ld a, #39
 	ld (hero_x), a
-	ld a, #60
+	ld a, #120
 	ld (hero_y), a
 	ld a, #-1
 	ld (hero_jump), a
@@ -232,7 +233,7 @@ moveHeroLeft:
 ;;	Checks User Input and Reacts
 ;;	DESTROYS:
 ;; ======================
-checkUserInput:
+checkUserInput::
 	;;Scan the whole keyboard
 	call cpct_scanKeyboard_asm ;;keyboard.s
 
@@ -259,7 +260,61 @@ checkUserInput:
 	ld hl, #hero_last_movement
 	ld a, #00
 	ld (hl), a
+
+	;; ----------------
+	;; IF offset == 0
+	;; ----------------
+	ld hl, (offset)
+	ld a, l
+	cp #0
+	jr nz, a_elseif
+
+	;; ----------------
+	;; AND hero_x < 39
+	;; ----------------
+	ld a, (hero_x)
+	cp #39
+	jr c, movimiento_libre_izquierda
+
+	;; ----------------
+	;; OR hero_x == 39
+	;; ----------------
+	jr nz, a_elseif
+
+	;; ----------------
+	;; THEN movimiento_libre_izquierda
+	;; ----------------
+	jr movimiento_libre_izquierda
+
+	;; ----------------
+	;; ELSEIF offset == 80
+	;; ----------------
+	a_elseif:
+	ld hl, (offset)
+	ld a, l
+	cp #80
+	jr nz, a_else
+
+	;; ----------------
+	;; AND hero_x > 39 THEN movimiento_libre_izquierda
+	;; ----------------
+	ld a, (hero_x)
+	cp #39
+	jr c, a_else
+	jr z, a_else
+
+	movimiento_libre_izquierda:
 	call moveHeroLeft
+	jr a_not_pressed
+
+	;; ----------------
+	;; ELSE
+	;; ----------------
+	a_else:
+	call hero_erase
+	call scroll_scrollLeft
+	call hero_draw
+
 
 	a_not_pressed:
 
@@ -273,7 +328,54 @@ checkUserInput:
 	ld hl, #hero_last_movement
 	ld a, #01
 	ld (hl), a
+
+	;; ----------------
+	;; IF offset == 80
+	;; ----------------
+	ld hl, (offset)
+	ld a, l
+	cp #80
+	jr nz, d_elseif
+
+	;; ----------------
+	;; AND hero_x >= 39
+	;; ----------------
+	ld a, (hero_x)
+	cp #39
+	jr c, d_elseif
+
+	;; ----------------
+	;; THEN movimiento_libre_derecha
+	;; ----------------
+	jr movimiento_libre_derecha
+
+	;; ----------------
+	;; ELSEIF offset == 0
+	;; ----------------
+	d_elseif:
+	ld hl, (offset)
+	ld a, l
+	cp #0
+	jr nz, d_else
+
+	;; ----------------
+	;; AND hero_x < 39 THEN movimiento_libre_derecha
+	;; ----------------
+	ld a, (hero_x)
+	cp #39
+	jr nc, d_else
+	
+	movimiento_libre_derecha:
 	call moveHeroRight
+	jr d_not_pressed
+
+	;; ----------------
+	;; ELSE
+	;; ----------------
+	d_else:
+	call hero_erase
+	call scroll_scrollRight
+	call hero_draw
 
 	d_not_pressed:
 
@@ -288,6 +390,7 @@ checkUserInput:
 	ld a, #02
 	ld (hl), a
 	call moveHeroUp
+
 	w_not_pressed:
 
 	;;Check for key 'S' being pressed
