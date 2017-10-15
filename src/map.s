@@ -5,8 +5,8 @@ enemies_qty: .dw #0x0000
 ;; enemy_offset | enemy_alive | enemy_x | enemy_y |
 enemies:
 	.db #10, #1, #73, #120
-	.db #70, #1, #73, #100
-	.db #70, #1, #73, #80
+	.db #30, #1, #73, #100
+	.db #50, #1, #73, #80
 	.db #70, #1, #73, #60
 	.db #70, #1, #73, #50
 
