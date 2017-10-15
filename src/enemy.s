@@ -45,10 +45,9 @@ enemy_update::
 	ld a, (enemy_alive)
 	cp #0
 	jr z, enemyOver
-		call moveEnemyLeft
+		call fetchHero
 		call hero_getPointer
 		call enemy_checkCollision
-
 	ret
 
 ;; ======================
@@ -275,30 +274,69 @@ enemy_checkCollision:
 	ret
 
 ;; ======================
-;; Move enemy to the left
+;; Move enemy to the hero
 ;; ======================
-moveEnemyLeft:
+fetchHero:
+	
+	ld hl, #enemy_temp 						
+	ld a, (hl) 								
+	cp #0x04 								
+	jr z, nueva 							
+		inc a 								
+		ld (hl), a 							
+		ret 								
+	nueva:									
+	ld (hl), #0x00
 
-	ld hl, #enemy_temp	 					;; hl <= enemy_temp
-	ld a, (hl) 								;; a <= (enemy_temp)
-	cp #0x03 								;; a == 0x04
-	jr z, nueva 							;; if(!a==0x02){
-		inc a 								;; 	a++
-		ld (hl), a 							;; 	Actualizamos enemy_temp
-		ret 								;; 	Terminamos
-	nueva:									;; }else{
-	ld (hl), #0x00 							;;  Reiniciamos tempBullets y procedemos a guardar la bala
-											;; }
+	call hero_getPointer
+	ld b, (hl)
+	ld a, (enemy_x)
+	cp b
+	jr z, continue
+	jr c, right
+		;left
+	dec a
+	jr continue
+	right:
+		;right
+		inc a
+	continue:
+	ld (enemy_x), a
+	inc hl
+	ld b, (hl)
+	ld a, (enemy_y)
+	cp b
+	jr z, samePosition
+	jr c, down
+		;up
+	sub a, #3
+	push af
+	sub b
+	jp nc, endFetch
 
-	;;Move enemy to the left
-	ld a, (enemy_x) 			;; |
-	dec a						;; | enemy_x--
-	jr nz, not_restart_x		;; | If (enemy_x = 0) then restart
+	equalsUp:
+		ld a, (hl)
+		ld (enemy_y), a
+		pop af
+		jr samePosition
 
-	;; Restart_x when it is 0 to the right
-	ld a, #80-7
+	jr endFetch
+	down:
+		;down
+		add a, #3
+		push af
+		sub b
+		jr c, endFetch
 
-	not_restart_x:
-	ld (enemy_x), a		
+		equalsDown:
+			ld a, (hl)
+			ld (enemy_y), a
+			pop af
+			jr samePosition
 
+	endFetch:
+	pop af
+	ld (enemy_y), a
+
+	samePosition:
 	ret
