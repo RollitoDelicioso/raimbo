@@ -132,7 +132,7 @@ hero_erase::
 hero_init::
 	ld a, #39
 	ld (hero_x), a
-	ld a, #60
+	ld a, #30
 	ld (hero_y), a
 	ld a, #-1
 	ld (hero_jump), a

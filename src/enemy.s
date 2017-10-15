@@ -45,7 +45,7 @@ enemy_update::
 	ld a, (enemy_alive)
 	cp #0
 	jr z, enemyOver
-		call fetchHero
+		call Algorithm_Random
 		call hero_getPointer
 		call enemy_checkCollision
 	ret
@@ -79,9 +79,9 @@ enemy_erase::
 ;;  Start enemy values
 ;; ======================
 enemy_init::
-	ld a, #65
+	ld a, #40
 	ld (enemy_x), a
-	ld a, #170
+	ld a, #100
 	ld (enemy_y),a
 
 	ret	
@@ -273,19 +273,76 @@ enemy_checkCollision:
 
 	ret
 
+Algorithm_Random::
+
+	ld hl, #enemy_temp 						
+	ld a, (hl) 								
+	cp #0x04 								
+	jr z, resetRandom							
+		inc a 								
+		ld (hl), a 							
+		ret 								
+	resetRandom:									
+	ld (hl), #0x00
+
+	call cpct_getRandom_lcg_u8_asm
+	cp #64
+	jp c, primerRango
+	cp #128
+	jp c, segundoRango
+	cp #192
+	jp c, tercerRango
+		;; cuartoRango
+		ld a, (enemy_y)
+		cp #0
+			ret z
+		cp #1
+			ret z
+		cp #2
+			ret z
+		sub a, #3
+		ld (enemy_y), a
+		ret
+	primerRango:
+		ld a, (enemy_x)
+		cp #80-7
+		 ret z
+		inc a
+		ld (enemy_x), a
+		ret
+	segundoRango:
+		ld a, (enemy_x)
+		cp #0
+		 ret z
+		dec a
+		ld (enemy_x), a
+		ret
+	tercerRango:
+		ld a, (enemy_y)
+		cp #200-26
+		ret z
+		cp #200-27
+		ret z
+		cp #200-25
+			ret z
+		add a, #3
+		ld (enemy_y), a
+		ret
+
+
 ;; ======================
 ;; Move enemy to the hero
 ;; ======================
-fetchHero:
+Algorithm_FetchHero:
 	
 	ld hl, #enemy_temp 						
 	ld a, (hl) 								
 	cp #0x04 								
-	jr z, nueva 							
+	jr z, resetFetch							
 		inc a 								
 		ld (hl), a 							
 		ret 								
-	nueva:									
+	resetFetch:									
 	ld (hl), #0x00
 
 	call hero_getPointer

@@ -321,6 +321,11 @@ drawBullet:
 ;;	Update all the bullets
 ;; ======================
 updateBullets:
+
+	ld a, (nBullets)
+	cp #0
+	ret z
+
 	ld hl, #bullets 					;; hl = referencia a memoria a #bullets
 	bucle: 								;;
 	ld a, (hl) 							;; a = hl(bullets_x)
