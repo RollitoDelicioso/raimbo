@@ -16,6 +16,7 @@
 .include "entity.h.s"
 .include "macros.h.s"
 .include "scroll.h.s"
+.include "map.h.s"
 
 ;;Hero Data
 defineEntity hero 39, 60, 7, 25, _sprite_hero_right

@@ -25,6 +25,7 @@ bullet_h: .db #1
 .include "hero.h.s"
 .include "enemy.h.s"
 .include "cpctelera.h.s"
+.include "scroll.h.s"
 
 ;;===========================================
 ;;===========================================
@@ -254,7 +255,7 @@ drawBullet:
 		ld c, a 						;; C = bullet_x
 		inc hl 							;; hl++
 		ld b, (hl) 						;; B = bullet_y
-		ld de, #0xC000 					;; Video memory
+		ld de, (puntero_video)	 		;; Video memory
 		push hl 						;; Almacenamos la dirección de de bullets_y
 		call cpct_getScreenPtr_asm 		;; Get pointer to screen						
 		ex de, hl 						;; de = posicion a pintar en pantalla, hl = ni idea (no nos importa)

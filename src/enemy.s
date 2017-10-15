@@ -20,12 +20,12 @@
 ;;Enemy Data
 defineEntity enemy 55, 60, 7, 25, _sprite_oldman_left
 enemy_temp: .db #0x00
-enemy_alive: .db #03
+enemy_alive:: .db #03
 enemy_last_movement: .db #00
 
 ;;Death Data
 defineEntity death #enemy_x, #enemy_y, 8, 16, _sprite_death
-death_isDraw: .db #00
+death_isDraw:: .db #00
 
 ;;Death Data Animation
 death_anim: .db #10			;;Número de animaciones de pintar-no_pintar
@@ -37,20 +37,6 @@ death_animState: .db #00	;;Estado actual [0-1]
 ;;PUBLIC FUNTIONS
 ;;===========================================
 ;;===========================================
-
-;; ======================
-;;	Enemy setCoords
-;;  Establece las coordenadas X e Y de enemy
-;; ======================
-enemy_setX::
-
-	ld (enemy_x), a
-ret
-
-enemy_setY::
-
-	ld (enemy_y), a
-ret
 
 ;; ======================
 ;;	Enemy Update
