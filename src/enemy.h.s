@@ -11,3 +11,5 @@
 .globl enemy_getPointer
 .globl enemy_enemyKill
 .globl enemy_isAlive
+.globl enemy_setX
+.globl enemy_setY

@@ -39,6 +39,20 @@ death_animState: .db #00	;;Estado actual [0-1]
 ;;===========================================
 
 ;; ======================
+;;	Enemy setCoords
+;;  Establece las coordenadas X e Y de enemy
+;; ======================
+enemy_setX::
+
+	ld (enemy_x), a
+ret
+
+enemy_setY::
+
+	ld (enemy_y), a
+ret
+
+;; ======================
 ;;	Enemy Update
 ;; ======================
 enemy_update::
@@ -85,7 +99,7 @@ enemy_init::
 	ld a, #60
 	ld (enemy_y),a
 
-	ret	
+	ret
 
 ;; ======================
 ;;	Gets a pointer to enemy data 
