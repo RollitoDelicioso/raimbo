@@ -312,9 +312,9 @@ checkUserInput::
 	;; ELSE
 	;; ----------------
 	a_else:
-	call hero_erase
+	;call hero_erase
 	call scroll_scrollLeft
-	call hero_draw
+	;call hero_draw
 
 
 	a_not_pressed:
@@ -374,10 +374,9 @@ checkUserInput::
 	;; ELSE
 	;; ----------------
 	d_else:
-	call hero_erase
+	;call hero_draw
 	call scroll_scrollRight
-	call hero_draw
-
+	;call hero_erase
 	d_not_pressed:
 
 	;;Check for key 'W' being pressed

@@ -18,7 +18,7 @@ MAX_SCROLL: .db #80
 ;;===========================================
 scroll:
 
-	call cpct_waitVSYNC_asm
+	;;call cpct_waitVSYNC_asm
 
 	ld hl, #offset
 	ld l, (hl)
