@@ -10,3 +10,5 @@
 .globl hero_init
 .globl hero_getPointer
 .globl hero_getPointerLastMovement
+.globl hero_getPointerInvecible
+.globl hero_decreaseLife

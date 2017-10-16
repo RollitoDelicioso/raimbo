@@ -10,6 +10,7 @@
 .equ Ent_spr_h, 5
 
 .include "cpctelera.h.s"
+.include "scroll.h.s"
 
 ;; ======================
 ;;	Draw the entity
@@ -21,7 +22,7 @@ entity_draw::
 	push af 	;;Save A in the stack
 
 	;; Calculate Screen position
-	ld de, #0xC000		;;Video memory
+	ld de, (puntero_video)		;;Video memory
 
 	ld c, Ent_x(ix)			;;\ C=hero_x
 	ld b, Ent_y(ix)			;;\ B=hero_y
@@ -41,5 +42,5 @@ entity_draw::
 		call cpct_drawSprite_asm
 		ret
 	erase:
-		call cpct_drawSolidBox_asm	
+		call cpct_drawSolidBox_asm
 	ret
