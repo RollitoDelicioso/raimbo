@@ -20,12 +20,12 @@
 ;;Enemy Data
 defineEntity enemy 55, 60, 7, 25, _sprite_oldman_left
 enemy_temp: .db #0x00
-enemy_alive: .db #03
+enemy_alive:: .db #03
 enemy_last_movement: .db #00
 
 ;;Death Data
 defineEntity death #enemy_x, #enemy_y, 8, 16, _sprite_death
-death_isDraw: .db #00
+death_isDraw:: .db #00
 
 ;;Death Data Animation
 death_anim: .db #10			;;Número de animaciones de pintar-no_pintar
@@ -84,7 +84,7 @@ enemy_init::
 	ld a, #100
 	ld (enemy_y),a
 
-	ret	
+	ret
 
 ;; ======================
 ;;	Gets a pointer to enemy data 
